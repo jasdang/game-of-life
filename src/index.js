@@ -5,6 +5,7 @@ btnCreateTable.addEventListener('submit', (e) => {
   const row = e.currentTarget.querySelector('#row').value;
   const column = e.currentTarget.querySelector('#column').value;
   document.getElementById('board').innerHTML = createNewBoard(row, column);
+  document.getElementById('board').insertAdjacentElement('afterend', addStartBtn());
 });
 
 const createNewBoard = (r, c) => {
@@ -13,6 +14,7 @@ const createNewBoard = (r, c) => {
     const row = document.createElement('tr');
     for (let j = 0; j < c; j++) {
       const cell = document.createElement('td');
+      // TODO: change display value of live and dead
       cell.innerText = '0';
       row.append(cell);
     }
@@ -20,3 +22,20 @@ const createNewBoard = (r, c) => {
   }
   return board.innerHTML;
 }
+
+const board = document.getElementById("board");
+const startBtn = document.getElementById("start-btn");
+let started = false;
+
+const addStartBtn = () => {
+  const btn = document.createElement('button');
+  btn.innerText = "Start";
+  btn.id = 'start-btn';
+  btn.addEventListener("click", (e) => {
+    e.currentTarget.innerText = started ? "Start" : "Stop";
+    started = !started;
+  });
+  return btn;
+}
+
+

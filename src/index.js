@@ -52,10 +52,9 @@ const initialPattern = (e) => {
   e.target.innerText = (e.target.innerText === "0") ? "1" : "0";
 }
 
-const rule_of_life = (n) => {
+const rule_of_life = () => {
   if (!started)
     return;
-  console.log("Run game of life pattern", n)
-  if (n > 0)
-    setTimeout(() => rule_of_life(--n), 50)
+  console.log("Run game of life pattern")
+  setTimeout(() => rule_of_life(), 50)
 }

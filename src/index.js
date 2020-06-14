@@ -1,4 +1,5 @@
 const form = document.getElementById('create-table');
+let started = false;
 
 form.addEventListener('submit', (e) => {
   event.preventDefault();
@@ -28,25 +29,33 @@ const createNewBoard = (r, c) => {
 }
 
 const addStartBtn = () => {
-  if (document.getElementById("start-btn")) return;
+  if (document.getElementById("start-btn"))
+    return;
 
   const btn = document.createElement('button');
   btn.innerText = "Start";
   btn.id = 'start-btn';
   btn.addEventListener("click", (e) => {
-    e.currentTarget.innerText = started ? "Start" : "Stop";
     started = !started;
+    console.log("Trigger", started)
+    e.currentTarget.innerText = !started ? "Start" : "Stop";
+    if (started)
+      setTimeout(() => rule_of_life(2000), 50);
   });
   return btn;
 }
 
-const board = document.getElementById("board");
-const startBtn = document.getElementById("start-btn");
-let started = false;
-
 const initialPattern = (e) => {
-  if (e.target.tagName !== "TD") return;
+  if (e.target.tagName !== "TD")
+    return;
   console.log(e.target.innerText);
   e.target.innerText = (e.target.innerText === "0") ? "1" : "0";
 }
 
+const rule_of_life = (n) => {
+  if (!started)
+    return;
+  console.log("Run game of life pattern", n)
+  if (n > 0)
+    setTimeout(() => rule_of_life(--n), 50)
+}

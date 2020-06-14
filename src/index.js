@@ -1,12 +1,14 @@
-const btnCreateTable = document.getElementById('create-table');
+const form = document.getElementById('create-table');
 
-btnCreateTable.addEventListener('submit', (e) => {
+form.addEventListener('submit', (e) => {
   event.preventDefault();
   const row = e.currentTarget.querySelector('#row').value;
   const column = e.currentTarget.querySelector('#column').value;
-  document.getElementById('board').innerHTML = createNewBoard(row, column);
+  const board = document.getElementById('board');
+  board.innerHTML = createNewBoard(row, column);
+  board.addEventListener("click", initialPattern);
   if (addStartBtn()) {
-    document.getElementById('board').insertAdjacentElement('afterend', addStartBtn());
+    board.insertAdjacentElement('afterend', addStartBtn());
   }
 });
 
@@ -42,5 +44,9 @@ const board = document.getElementById("board");
 const startBtn = document.getElementById("start-btn");
 let started = false;
 
-
+const initialPattern = (e) => {
+  if (e.target.tagName !== "TD") return;
+  console.log(e.target.innerText);
+  e.target.innerText = (e.target.innerText === "0") ? "1" : "0";
+}
 

@@ -50,11 +50,51 @@ const initialPattern = (e) => {
     return;
   console.log(e.target.innerText);
   e.target.innerText = (e.target.innerText === "0") ? "1" : "0";
+  console.log(e.target.innerText);
 }
 
 const rule_of_life = () => {
   if (!started)
     return;
-  console.log("Run game of life pattern")
-  setTimeout(() => rule_of_life(), 50)
+  console.log("Run game of life pattern");
+  board = document.getElementById("board");
+  rows = board.querySelectorAll("tbody > tr");
+  let r = 0;
+  let c = 0;
+  rows.forEach((tr) => {
+    let columns = tr.querySelectorAll("td");
+    columns.forEach((td) => {
+      const adjCellCoors = [[r - 1, c - 1],
+                           [r - 1, c],
+                           [r - 1, c + 1],
+                           [r, c - 1],
+                           [r, c + 1],
+                           [r + 1, c - 1],
+                           [r + 1, c],
+                           [r + 1, c + 1]];
+      let liveNeighbors = 0;
+      adjCellCoors.forEach((adjCellCoor) => {
+        if ((adjCellCoor[0] >= 0) && (adjCellCoor[1] >= 0) && (adjCellCoor[0] < rows.length) && (adjCellCoor[1] < columns.length)) {
+          const tempTd = rows[adjCellCoor[0]].querySelectorAll("td");
+          const cell = tempTd[adjCellCoor[1]].innerText;
+          if ( cell === "1")
+            liveNeighbors += 1;
+        }
+      })
+      console.log(`Neightbors: ${liveNeighbors}`);
+      if ((td.innerText === "1") && ((liveNeighbors < 2) || (liveNeighbors > 3))) {
+        td.innerText = "0";
+        console.log("hi")
+      }
+      else if (td.innerText === "0" && (liveNeighbors === 3)) {
+        td.innerText = "1";
+        console.log("hello")
+      }
+      console.log(`row ${r}, column ${c}, value ${td.innerText}`);
+      c++;
+    })
+    c = 0;
+    r++;
+  })
+  // setTimeout(() => rule_of_life(), 50);
 }
